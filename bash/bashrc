@@ -108,5 +108,3 @@ else
 
     PROMPT_COMMAND=prompt_func
 fi
-
-eval "$(starship init bash)"
