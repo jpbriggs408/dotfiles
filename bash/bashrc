@@ -67,7 +67,7 @@ fi
 # Git prompt and completion for bash shell
 ## Source git prompt and completion scripts if available (Etsy machines).
 ## Otherwise define a simple git prompt function.
-if [ -f /etc/bash_gitprompt && -f /etc/bash_completion ]; then
+if [ -f /etc/bash_gitprompt ] && [ -f /etc/bash_completion ]; then
     source /etc/bash_gitprompt
     export PROMPT_COMMAND=prompt_func
     source /etc/bash_completion
