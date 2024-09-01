@@ -4,7 +4,7 @@
     ~/.bash_profile: bash_profile
     ~/.bashrc: bashrc
     ~/.gitconfig: gitconfig
+    ~/.shell_common: shell_common
+    ~/Library/Application\ Support/Code/User/settings.json: vscode/settings.json
     ~/.zprofile: zprofile
     ~/.zshrc: zshrc
-
-

@@ -1,0 +1,265 @@
+{
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[php]": {
+        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+        "editor.wordSeparators": "`~!@#%^&*()-=+[{]}\\|;:'\",.<>/?"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "cSpell.userWords": ["jbriggs"],
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "editor.cursorBlinking": "phase",
+    "editor.fontFamily": "'Fira Code'",
+    "editor.fontSize": 16,
+    "editor.fontLigatures": true,
+    "editor.guides.bracketPairs": true,
+    "editor.inlineSuggest.enabled": true,
+    "editor.linkedEditing": true,
+    "editor.minimap.enabled": false,
+    "editor.rulers": [120],
+    "editor.stickyScroll.enabled": true,
+    "editor.suggestSelection": "first",
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.wordWrap": "on",
+    "eslint.format.enable": true,
+    "eslint.run": "onSave",
+    "eslint.validate": ["javascript", "typescript"],
+    "files.autoSave": "onFocusChange",
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "files.watcherExclude": {
+        "**/generated/**": true,
+        "**/Generated/**": true,
+        "**/htdocs/assets/dist/**": true,
+        "**/vendor/**": true,
+        "tests/phpunit/**/__snapshots__/**": true,
+        "tmp/**": true,
+        "translations/**": true
+    },
+    "git.confirmSync": false,
+    "git.ignoredRepositories": ["./jsconfig.json"],
+    "github.copilot.editor.enableAutoCompletions": true,
+    "github.copilot.enable": {
+        "*": true,
+        "markdown": true,
+        "plaintext": false,
+        "scminput": false
+    },
+    "gitlens.advanced.blame.customArguments": [
+        "--ignore-revs-file",
+        ".git-blame-ignore-revs"
+    ],
+    "gitlens.currentLine.pullRequests.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.remotes": [
+        {
+            "domain": "github.example.com",
+            "type": "GitHub",
+            "urls": {
+                "branch": "https://github.example.com/${repo}/commits/${branch}",
+                "branches": "https://github.example.com/${repo}/branches",
+                "commit": "https://github.example.com/${repo}/commit/${id}",
+                "file": "https://github.example.com/${repo}?path=${file}${line}",
+                "fileInBranch": "https://github.example.com/${repo}/blob/${branch}/${file}${line}",
+                "fileInCommit": "https://github.example.com/${repo}/blob/${id}/${file}${line}",
+                "fileLine": "#L${line}",
+                "fileRange": "#L${start}-L${end}",
+                "repository": "https://github.example.com/${repo}"
+            }
+        }
+    ],
+    "gitlens.views.commits.showBranchComparison": false,
+    "guides.enabled": false,
+    "intelephense.files.exclude": [
+        "**/.git/**",
+        "**/.svn/**",
+        "**/.hg/**",
+        "**/CVS/**",
+        "**/.DS_Store/**",
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/htdocs_projects/**",
+        "**/htdocs_workers/**",
+        "**/htdocs/assets/dist/**",
+        "**/tmp/**",
+        "**vendor/*/{!(phpunit)/**}",
+        "translations/**",
+        "**/.phan/**",
+        "**/cron.d/**",
+        "**/generated/**",
+        "**/Generated/**",
+        "**/modules/css/**",
+        "**/__modules__*__src__/**",
+        "vendor/work/module-*/**",
+    ],
+    "intelephense.maxMemory": 8192,
+    "peacock.favoriteColors": [
+        {
+            "name": "Work Design Orange",
+            "value": "#f1641e"
+        },
+        {
+            "name": "Work Design Orange Dark",
+            "value": "#cf4018"
+        },
+        {
+            "name": "Work Design Orange Light",
+            "value": "#faa077"
+        },
+        {
+            "name": "Work Design Orange Tint",
+            "value": "#f8ebe6"
+        },
+        {
+            "name": "Work Design Denim",
+            "value": "#2f466c"
+        },
+        {
+            "name": "Work Design Denim Dark",
+            "value": "#232347"
+        },
+        {
+            "name": "Work Design Denim Light",
+            "value": "#4d6bc6"
+        },
+        {
+            "name": "Work Design Denim Tint",
+            "value": "#d7e6f5"
+        },
+        {
+            "name": "Work Design Lavender",
+            "value": "#654b77"
+        },
+        {
+            "name": "Work Design Lavender Dark",
+            "value": "#3e1c53"
+        },
+        {
+            "name": "Work Design Lavender Light",
+            "value": "#9560b8"
+        },
+        {
+            "name": "Work Design Lavender Tint",
+            "value": "#e6e1f0"
+        },
+        {
+            "name": "Work Design Beeswax",
+            "value": "#faa129"
+        },
+        {
+            "name": "Work Design Beeswax Dark",
+            "value": "#a66800"
+        },
+        {
+            "name": "Work Design Beeswax Light",
+            "value": "#fdd95c"
+        },
+        {
+            "name": "Work Design Beeswax Tint",
+            "value": "#fdebd2"
+        },
+        {
+            "name": "Work Design Slime",
+            "value": "#258635"
+        },
+        {
+            "name": "Work Design Slime Dark",
+            "value": "#1c4a21"
+        },
+        {
+            "name": "Work Design Slime Light",
+            "value": "#9ec063"
+        },
+        {
+            "name": "Work Design Slime Tint",
+            "value": "#d4e9d7"
+        },
+        {
+            "name": "Work Design Turquoise",
+            "value": "#2f766d"
+        },
+        {
+            "name": "Work Design Turquoise Dark",
+            "value": "#1a3b38"
+        },
+        {
+            "name": "Work Design Turquoise Light",
+            "value": "#7ed4bd"
+        },
+        {
+            "name": "Work Design Turquoise Tint",
+            "value": "#ddebe3"
+        },
+        {
+            "name": "Work Design Bubblegum",
+            "value": "#b54c82"
+        },
+        {
+            "name": "Work Design Bubblegum Dark",
+            "value": "#592642"
+        },
+        {
+            "name": "Work Design Bubblegum Light",
+            "value": "#f592b8"
+        },
+        {
+            "name": "Work Design Bubblegum Tint",
+            "value": "#f5d9e3"
+        },
+        {
+            "name": "Work Design Brick",
+            "value": "#a61a2e"
+        },
+        {
+            "name": "Work Design Brick Dark",
+            "value": "#540d17"
+        },
+        {
+            "name": "Work Design Brick Light",
+            "value": "#fd9184"
+        },
+        {
+            "name": "Work Design Brick Tint",
+            "value": "#fddcd8"
+        }
+    ],
+    "phpcs.executablePath": "WORK_MONOREPO_PATH/vendor/bin/phpcs",
+    "phpcs.standard": "WORK_MONOREPO_PATH/tests/standards/stable-ruleset.xml",
+    "prettier.singleQuote": true,
+    "prettier.tabWidth": 4,
+    "requireModuleSupport.modulePath": "htdocs/assets/js",
+    "terminal.integrated.env.linux": {
+        "EDITOR": "code -rw"
+    },
+    "terminal.integrated.env.osx": {
+        "EDITOR": "code -rw"
+    },
+    "terminal.integrated.fontSize": 14,
+    "typescript.inlayHints.enumMemberValues.enabled": true,
+    "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.tsserver.maxTsServerMemory": 8192,
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "window.zoomLevel": 1,
+    "workbench.colorCustomizations": {},
+    "workbench.colorTheme": "Dracula Refined",
+    "workbench.editorAssociations": {
+        "*.ipynb": "vscode.markdown.preview.editor"
+    },
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.sideBar.location": "right",
+    "workbench.startupEditor": "none",
+}
