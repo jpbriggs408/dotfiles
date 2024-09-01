@@ -16,21 +16,25 @@
     ~/.config/starship.toml: starship/starship.toml
 
     # VS Code Linux
-    ~/.config/Code/User:
+    ~/.config/Code/User/settings.json:
       if: '[[ `uname` = Linux ]]'
-      glob: true
       path: vscode/settings.json
       force: true
 
-    # VS Code MacOS
-    ~/Library/Application Support/Code/User:
+    # VS Code macOS
+    ~/Library/Application Support/Code/User/settings.json:
       if: '[ `uname` = Darwin ]'
-      glob: true
       path: vscode/settings.json
       force: true
-
 - shell:
-    - command: curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
+   -
+      command: >
+        if ! command -v starship &> /dev/null; then
+          echo "Starship not found. Installing Starship..."
+          curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
+        else
+          echo "Starship is already installed."
+        fi
       stdout: true
       stderr: true
     - [git submodule update --init --recursive, Installing submodules]
