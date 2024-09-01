@@ -3,3 +3,5 @@
 	name = Jonathan Briggs
 [core]
 	editor = code
+[alias]
+	co = checkout

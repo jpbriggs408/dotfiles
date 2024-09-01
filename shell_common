@@ -1,0 +1,266 @@
+# =============================================================================
+#  Common Shell Configuration (for both Bash and Zsh)
+# =============================================================================
+
+# ============================================================================
+#  1. Aliases
+# ============================================================================
+
+# ----- 1.1 Safety Aliases -----
+alias rm='rm -i'     # Prompt before removing
+alias cp='cp -i'     # Prompt before overwriting
+alias mv='mv -i'     # Prompt before overwriting
+alias mkdir='mkdir -p'  # Create parent directories as needed
+
+# ----- 1.2 Navigation and Utility Aliases -----
+alias h='history'
+alias j='jobs -l'
+alias which='type -a'
+alias cd..='cd ..' # Allow for common typo
+alias ..='cd ..'
+alias ....='cd .. && cd ..'
+
+# ----- 1.3 Path Display Aliases -----
+alias path='echo -e ${PATH//:/\\n}'
+alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
+
+# ----- 1.4 Disk Usage Aliases -----
+alias df='df -kTh'      # Human-readable sizes with filesystem type
+alias du='du -kh'       # Human-readable sizes
+alias dud='du -d 1 -h'  # Show size of each directory in current directory
+alias duf='du -sh *'    # Show size of each top-level directory in current directory
+alias free='free -m'    # Show sizes in MB
+
+# ----- 1.5 ls Family Aliases -----
+alias l='ls -lFh'         # Long listing with human-readable sizes
+alias ls='ls -h --color'  # Colorized output with human-readable sizes
+alias lah='ls -lah'       # Long listing including hidden files
+alias lx='ls -lXB'        # Sort by extension
+alias lk='ls -lSr'        # Sort by size
+alias lt='ls -ltr'        # Sort by date, most recent last
+alias lc='ls -ltcr'       # Sort by change time
+alias lu='ls -ltur'       # Sort by access time
+alias ll="ls -lv --group-directories-first"  # Long listing, directories first
+alias lm='ll |more'       # Pipe through 'more'
+alias lr='ll -R'          # Recursive ls
+alias la='ll -A'          # Show hidden files
+alias ldot='ls -ld .*'    # Show only dotfiles
+alias lS='ls -1FSsh'      # Sort by size
+alias lart='ls -1Fcart'   # Sort by recent modification
+alias lrt='ls -1Fcrt'     # Sort by recent access
+alias tree='tree -Csuh'   # Nice alternative to 'recursive ls'
+
+# ----- 1.6 Git Aliases -----
+alias git-diff='git diff | gist -t diff'
+alias gcm='git checkout main'
+alias gitstatus='git status'
+alias grc='git rebase --continue'
+
+# ----- 1.7 Grep Aliases -----
+alias grep='grep --color'
+alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS} '
+alias hgrep="fc -El 0 | grep"
+
+# ----- 1.8 Other Aliases -----
+alias t='tail -f'
+alias h='history'
+alias help='man'
+alias p='ps -f'
+alias sortnr='sort -n -r'
+alias unexport='unset'
+
+# ----- 1.9 Shortcuts -----
+alias c='clear'                       # Clear terminal display
+alias edit='$EDITOR'                  # Open default editor
+alias src='source ~/.bashrc || source ~/.zshrc'  # Reload shell configuration
+
+
+# ============================================================================
+#  2. Functions
+# ============================================================================
+
+# ----- 2.1 File Extraction Function -----
+function extract() {
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xvjf $1     ;;
+            *.tar.gz)    tar xvzf $1     ;;
+            *.bz2)       bunzip2 $1      ;;
+            *.rar)       unrar x $1      ;;
+            *.gz)        gunzip $1       ;;
+            *.tar)       tar xvf $1      ;;
+            *.tbz2)      tar xvjf $1     ;;
+            *.tgz)       tar xvzf $1     ;;
+            *.zip)       unzip $1        ;;
+            *.Z)         uncompress $1   ;;
+            *.7z)        7z x $1         ;;
+            *)           echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file!"
+    fi
+}
+
+# ----- 2.2 Archive Creation Functions -----
+function maketar() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
+function makezip() { zip -r "${1%%/}.zip" "$1" ; }
+
+# ----- 2.3 File Permission Function -----
+function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
+
+# ----- 2.4 Git Patch Application Function -----
+function apply-patch() {
+    curl $1 | git apply -v --index
+}
+
+# ----- 2.5 Yarn/JFROG Function -----
+function yarn_prod() {
+    cd ~/development/briggs/prod-npmrc/
+    rm -rf node_modules package.json yarn.lock
+    yarnpkg cache clean
+    yarnpkg init -y
+    yarnpkg add $@
+    cd -
+}
+
+# ----- 2.6 SSH and Remember Function -----
+# Function to set up SSH key-based authentication
+setup_ssh_key() {
+    local remote_host="$1"
+    local ssh_key="${2:-$HOME/.ssh/id_rsa.pub}"
+    
+    if [ ! -f "$ssh_key" ]; then
+        echo "SSH key not found: $ssh_key"
+        echo "Generating a new SSH key..."
+        ssh-keygen -t rsa -b 4096 -f "${ssh_key%.pub}"
+    fi
+
+    echo "Copying SSH key to $remote_host..."
+    ssh-copy-id -i "$ssh_key" "$remote_host"
+
+    echo "Testing SSH connection..."
+    ssh -o PasswordAuthentication=no "$remote_host" echo "SSH key-based authentication successful!"
+
+    # Optionally, update SSH config
+    if [ -f ~/.ssh/config ]; then
+        if ! grep -q "Host $remote_host" ~/.ssh/config; then
+            echo -e "\nHost $remote_host\n    HostName $remote_host\n    User $USER\n    IdentityFile $ssh_key\n    ControlPath ~/.ssh/controlmasters/%r@%h:%p\n    ControlMaster auto\n    ControlPersist 10m" >> ~/.ssh/config
+            echo "Updated SSH config for $remote_host"
+        fi
+    else
+        echo -e "Host $remote_host\n    HostName $remote_host\n    User $USER\n    IdentityFile $ssh_key\n    ControlPath ~/.ssh/controlmasters/%r@%h:%p\n    ControlMaster auto\n    ControlPersist 10m" > ~/.ssh/config
+        echo "Created SSH config for $remote_host"
+    fi
+}
+
+# Alias for setting up SSH key authentication
+alias sshr='setup_ssh_key'
+
+# Usage instructions
+sshsetup_help() {
+    echo "Usage: sshsetup <remote_host> [path_to_ssh_key]"
+    echo "Example: sshsetup user@example.com"
+    echo "Example with custom key: sshsetup user@example.com ~/.ssh/my_custom_key.pub"
+}
+
+alias sshr_help='sshsetup_help'
+
+# ----- 2.7 Utility Functions -----
+# Create a directory and change into it
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+# Create a backup of a file
+bak() { cp "$1"{,.bak}; }
+
+# ----- 2.8 Find Functions -----
+# Functions to find files and directories
+ff() { find . -type f -iname "*$1*" -ls ; }
+fd() { find . -type d -iname "*$1*" -ls ; }
+
+# ----- 2.9 Git Diff Functions -----
+
+# ============================================================================
+#  3. Conditional Aliases (OS or Terminal Specific)
+# ============================================================================
+
+case "$TERM" in
+xterm*)
+    # Use winpty for interactive programs in mintty (Windows-specific)
+    for name in node ipython php php5 psql python2.7 python python3 npm yo
+    do
+        case "$(type -p "$name".exe 2>/dev/null)" in
+        ''|/usr/bin/*) continue;;
+        esac
+        alias $name="winpty $name.exe"
+    done
+    ;;
+esac
+
+# ============================================================================
+#  4. Local Customizations
+# ============================================================================
+
+# Handy aliases for Etsy employees
+alias pipe-gist='gist -p -t diff'
+alias gist-diff='git diff origin/main | pipe-gist'
+alias gcm='git checkout main'
+alias diffmain='git diff $(git merge-base HEAD main) HEAD && git diff | pipe-gist'
+alias review='review --no-commit-all --stay-on-temp -g'
+alias testserver='cd /tmp && python -m SimpleHTTPServer'
+alias git-commit='git add -A && git commit -a'
+alias git-commit-rebase='git add -A && git commit -a -m "[rebase me]"'
+alias git-commit-ammend='git add -A && git commit --amend'
+alias git-upstream-main='git branch --set-upstream-to=origin/main'
+alias git-upstream-current='git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)'
+alias git-revert-to-main-origin='git fetch origin && git reset --hard origin/main'
+alias git-revert-file='git checkout origin/main'
+alias git-checkout-ticket='git branch -l | grep'
+alias rpull='git rpull'
+alias rtry='rpull && try'
+alias gitstatus='git status'
+alias git-diff-files='git diff --name-only'
+alias grc='git rebase --continue'
+alias make-pretty='git diff --name-only origin | grep ".js$" | xargs prettier --write'
+alias superpush='until git rpull && git push; do : ; done'
+alias api-compile='./bin/api/compile'
+alias schema-dump='cd ~/development/SchemaDumps && git rpull'
+alias pu='cd ~/development/Etsyweb/tests/phpunit/ && pake unit_nosetup'
+alias pus='cd ~/development/Etsyweb/tests/phpunit/ && pake unit'
+alias puf='cd ~/development/Etsyweb/tests/phpunit/ && pake unit_nosetup "'"'"'--filter'"'"'"'
+alias pusf='cd ~/development/Etsyweb/tests/phpunit/ && pake unit "'"'"'--filter'"'"'"'
+alias pi='cd ~/development/Etsyweb/tests/phpunit/ && pake integration_nosetup'
+alias pis='cd ~/development/Etsyweb/tests/phpunit/ && pake integration'
+alias pif='cd ~/development/Etsyweb/tests/phpunit/ && pake integration_nosetup "'"'"'--filter'"'"'"'
+alias pisf='cd ~/development/Etsyweb/tests/phpunit/ && pake integration "'"'"'--filter'"'"'"'
+alias ew='cd ~/development/Etsyweb'
+alias edit-profile='vi ~/.bash_profile'
+alias source-profile='source ~/.bash_profile'
+alias my-vertica='vsql -h vertica-prod.etsycorp.com'
+alias code-coverage='ew && bin/code-coverage/generate-local-coverage.php'
+
+# Connect to VM using Mosh and attach to tmux session
+mosh_vm() {
+    local vm_name=${1:-vm}  # Default to 'vm' if no argument provided
+    mosh "$vm_name" -- sh -c 'tmux -u a || tmux -u'
+}
+# This alias does the following:
+# 1. Uses 'mosh' to connect to a host named 'vm'
+# 2. Once connected, it runs a shell command to:
+#    a. Attempt to attach to an existing tmux session with UTF-8 support (-u)
+#    b. If no existing session, start a new tmux session with UTF-8 support
+# This ensures you always enter into a tmux session upon connection
+# Usage: mosh_vm [vm_name]
+# Example: mosh_vm ny2
+
+# Google Cloud VM start command
+gcloud_start() {
+    local instance=${1:-jbriggs}
+    local project=${2:-etsy-devvms-dev}
+    local zone=${3:-us-central1-a}
+    gcloud compute instances start "$instance" --project "$project" --zone "$zone"
+}
+# This alias starts a specific Google Cloud VM instance
+# Adjust the instance name, project, and zone as needed for your setup
+# Usage: gcloud_start [instance_name] [project_name] [zone]
+# Example: gcloud_start myinstance myproject us-west1-b
