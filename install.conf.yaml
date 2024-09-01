@@ -1,10 +1,36 @@
+- defaults:
+    link:
+      relink: true
+      create: true
+
 - clean: ['~']
 
 - link:
-    ~/.bash_profile: bash_profile
-    ~/.bashrc: bashrc
-    ~/.gitconfig: gitconfig
-    ~/.shell_common: shell_common
-    ~/Library/Application Support/Code/User/settings.json: vscode/settings.json
-    ~/.zprofile: zprofile
-    ~/.zshrc: zshrc
+    ~/.bash_profile: bash/bash_profile
+    ~/.bashrc: bash/bashrc
+    ~/.gitconfig: git/gitconfig
+    ~/.shell_common: shell/shell_common
+    ~/.zprofile: zsh/zprofile
+    ~/.zshrc: zsh/zshrc
+
+    ~/.config/starship.toml: starship/starship.toml
+
+    # VS Code Linux
+    ~/.config/Code/User:
+      if: '[[ `uname` = Linux ]]'
+      glob: true
+      path: vscode/settings.json
+      force: true
+
+    # VS Code MacOS
+    ~/Library/Application Support/Code/User:
+      if: '[ `uname` = Darwin ]'
+      glob: true
+      path: vscode/settings.json
+      force: true
+
+- shell:
+    - command: curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
+      stdout: true
+      stderr: true
+    - [git submodule update --init --recursive, Installing submodules]
