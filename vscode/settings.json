@@ -260,6 +260,6 @@
         "*.ipynb": "vscode.markdown.preview.editor"
     },
     "workbench.iconTheme": "material-icon-theme",
-    "workbench.sideBar.location": "right",
-    "workbench.startupEditor": "none",
+    "workbench.sideBar.location": "left",
+    "workbench.startupEditor": "none"
 }
