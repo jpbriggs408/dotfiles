@@ -1,0 +1,13 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	worktree = /Users/jbriggs
+	ignorecase = true
+	precomposeunicode = true
+[status]
+	showUntrackedFiles = no
+[remote "origin"]
+	url = git@github.com:jpbriggs408/dotfiles.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
