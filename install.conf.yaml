@@ -27,14 +27,4 @@
       path: vscode/settings.json
       force: true
 - shell:
-   -
-      command: >
-        if ! command -v starship &> /dev/null; then
-          echo "Starship not found. Installing Starship..."
-          curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
-        else
-          echo "Starship is already installed."
-        fi
-      stdout: true
-      stderr: true
     - [git submodule update --init --recursive, Installing submodules]
