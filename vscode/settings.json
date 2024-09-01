@@ -238,6 +238,7 @@
     ],
     "phpcs.executablePath": "/home/jbriggs/development/Etsyweb/vendor/bin/phpcs",
     "phpcs.standard": "/home/jbriggs/development/Etsyweb/tests/standards/stable-ruleset.xml",
+    "phpcs.autoConfigSearch": false,
     "prettier.singleQuote": true,
     "prettier.tabWidth": 4,
     "requireModuleSupport.modulePath": "htdocs/assets/js",

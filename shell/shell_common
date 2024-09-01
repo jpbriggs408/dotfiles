@@ -55,6 +55,7 @@ alias git-diff='git diff | gist -t diff'
 alias gcm='git checkout main'
 alias gitstatus='git status'
 alias grc='git rebase --continue'
+alias gll='git log --graph --pretty=oneline --abbrev-commit'
 
 # ----- 1.7 Grep Aliases -----
 alias grep='grep --color'
@@ -128,7 +129,7 @@ function yarn_prod() {
 setup_ssh_key() {
     local remote_host="$1"
     local ssh_key="${2:-$HOME/.ssh/id_rsa.pub}"
-    
+
     if [ ! -f "$ssh_key" ]; then
         echo "SSH key not found: $ssh_key"
         echo "Generating a new SSH key..."
