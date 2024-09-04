@@ -72,7 +72,6 @@ alias unexport='unset'
 
 # ----- 1.9 Shortcuts -----
 alias c='clear'
-alias vim='nvim'
 alias edit='$EDITOR'
 alias src='source ~/.bashrc || source ~/.zshrc'  # Reload shell configuration
 
