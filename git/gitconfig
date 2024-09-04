@@ -8,7 +8,7 @@
 [alias]
 	co = checkout
 [commit]
-	gpgsign = true
+	gpgsign = false
 [init]
 	defaultBranch = main
 [gpg]

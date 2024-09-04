@@ -71,8 +71,9 @@ alias sortnr='sort -n -r'
 alias unexport='unset'
 
 # ----- 1.9 Shortcuts -----
-alias c='clear'                       # Clear terminal display
-alias edit='$EDITOR'                  # Open default editor
+alias c='clear'
+alias vim='nvim'
+alias edit='$EDITOR'
 alias src='source ~/.bashrc || source ~/.zshrc'  # Reload shell configuration
 
 

@@ -64,9 +64,14 @@ fi
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+# In Zsh, I use oh-my-posh for prompt theming. In Bash, I use a custom prompt to make things
+# a little more interesting. The prompt displays the current working directory and the current
+# Git branch (if available). If the previous command returned a non-zero exit code, the prompt
+# will display a red '>' character to indicate an error.
+
 # Git prompt and completion for bash shell
-## Source git prompt and completion scripts if available (Etsy machines).
-## Otherwise define a simple git prompt function.
+# Source git prompt and completion scripts if available (Etsy machines).
+# Otherwise define a simple git prompt function.
 if [ -f /etc/bash_gitprompt ] && [ -f /etc/bash_completion ]; then
     source /etc/bash_gitprompt
     export PROMPT_COMMAND=prompt_func
