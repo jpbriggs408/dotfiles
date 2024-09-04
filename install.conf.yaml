@@ -13,7 +13,7 @@
     ~/.zprofile: zsh/zprofile
     ~/.zshrc: zsh/zshrc
 
-    ~/.config/starship.toml: starship/starship.toml
+    ~/.config/ohmyposh/omp.toml: prompts/omp.toml
 
     # VS Code Linux
     ~/.config/Code/User/settings.json:
