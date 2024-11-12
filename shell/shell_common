@@ -265,3 +265,6 @@ gcloud_start() {
 # Adjust the instance name, project, and zone as needed for your setup
 # Usage: gcloud_start [instance_name] [project_name] [zone]
 # Example: gcloud_start myinstance myproject us-west1-b
+
+# Load GPG TTY for password prompts
+GPG_TTY=$(tty)

@@ -262,5 +262,6 @@
     },
     "workbench.iconTheme": "material-icon-theme",
     "workbench.sideBar.location": "left",
-    "workbench.startupEditor": "none"
+    "workbench.startupEditor": "none",
+    "betterOpenEditors.PackagePatterns": "**/components/*\n**/modules/*\n**/phplib/*\n**/htdocs/assets/js*\n**/tests/*"
 }
