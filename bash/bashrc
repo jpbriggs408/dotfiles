@@ -113,3 +113,5 @@ else
 
     PROMPT_COMMAND=prompt_func
 fi
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

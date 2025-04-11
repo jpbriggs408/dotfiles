@@ -268,3 +268,6 @@ gcloud_start() {
 
 # Load GPG TTY for password prompts
 GPG_TTY=$(tty)
+
+# Set up Homebrew
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
