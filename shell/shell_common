@@ -185,18 +185,18 @@ fd() { find . -type d -iname "*$1*" -ls ; }
 #  3. Conditional Aliases (OS or Terminal Specific)
 # ============================================================================
 
-case "$TERM" in
-xterm*)
-    # Use winpty for interactive programs in mintty (Windows-specific)
-    for name in node ipython php php5 psql python2.7 python python3 npm yo
-    do
-        case "$(type -p "$name".exe 2>/dev/null)" in
-        ''|/usr/bin/*) continue;;
-        esac
-        alias $name="winpty $name.exe"
-    done
-    ;;
-esac
+# case "$TERM" in
+# xterm*)
+#     # Use winpty for interactive programs in mintty (Windows-specific)
+#     for name in node ipython php php5 psql python2.7 python python3 npm yo
+#     do
+#         case "$(type -p "$name".exe 2>/dev/null)" in
+#         ''|/usr/bin/*) continue;;
+#         esac
+#         alias $name="winpty $name.exe"
+#     done
+#     ;;
+# esac
 
 # ============================================================================
 #  4. Local Customizations

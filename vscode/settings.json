@@ -254,7 +254,6 @@
     "typescript.tsdk": "node_modules/typescript/lib",
     "typescript.tsserver.maxTsServerMemory": 8192,
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "window.zoomLevel": 1,
     "workbench.colorCustomizations": {},
     "workbench.colorTheme": "Dracula Refined",
     "workbench.editorAssociations": {
