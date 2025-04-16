@@ -5,6 +5,7 @@
 [core]
 	editor = vim
 	symlinks = true
+        excludesfile = /home/jbriggs/.gitignore
 [alias]
 	co = checkout
 [commit]
