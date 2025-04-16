@@ -5,18 +5,23 @@
 # Features and Plugins
 # -----------------------------------------------------------------------------
 
-# Install Homebrew if not present
-if ! command -v brew &> /dev/null; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
-
-if [[ -f "/opt/homebrew/bin/brew" ]] then
-    if [[ $(uname) == "Darwin" ]]; then
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-    fi
-    # Check if OSNAME is linux-gnu
-    if [[ $OSNAME == "linux-gnu" ]]; then
+# Check if we're on Linux
+if [[ "$(uname)" == "Linux" ]]; then
+    # Check if Linuxbrew is installed
+    if [[ -d "/home/linuxbrew/.linuxbrew" ]]; then
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    elif [[ -d "$HOME/.linuxbrew" ]]; then
+        eval "$($HOME/.linuxbrew/bin/brew shellenv)"
+    else
+        # Install Homebrew if not present
+        if ! command -v brew &> /dev/null; then
+            echo "Homebrew not found. Installing..."
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+            # After installation, add Homebrew to your PATH
+            test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+            test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        fi
     fi
 fi
 
@@ -49,7 +54,8 @@ zinit snippet OMZP::command-not-found
 zinit snippet OMZP::z
 zinit snippet OMZP::colored-man-pages
 
-autoload -Uz compinit && compinit
+autoload -U compinit
+compinit
 
 zinit cdreplay -q
 
