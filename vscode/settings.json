@@ -15,10 +15,17 @@
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "cSpell.userWords": ["jbriggs"],
+    "cSpell.userWords": [
+        "EXIF",
+        "jbriggs",
+        "Supabase"
+    ],
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "explicit"
+        "source.organizeImports": "never",
+        "source.fixAll": "never",
+        "addMissingImports": "never",
+        "fixAll.eslint": "never",
     },
     "editor.cursorBlinking": "phase",
     "editor.fontFamily": "'Fira Code'",
@@ -50,14 +57,9 @@
         "translations/**": true
     },
     "git.confirmSync": false,
-    "git.ignoredRepositories": ["./jsconfig.json"],
-    "github.copilot.editor.enableAutoCompletions": true,
-    "github.copilot.enable": {
-        "*": true,
-        "markdown": true,
-        "plaintext": false,
-        "scminput": false
-    },
+    "git.ignoredRepositories": [
+        "./jsconfig.json"
+    ],
     "gitlens.advanced.blame.customArguments": [
         "--ignore-revs-file",
         ".git-blame-ignore-revs"
@@ -83,6 +85,10 @@
     ],
     "gitlens.views.commits.showBranchComparison": false,
     "guides.enabled": false,
+    "search.exclude": {
+        "modules/css": true,
+        "/htdocs/assets/css/__modules**": true
+    },
     "intelephense.files.exclude": [
         "**/.git/**",
         "**/.svn/**",
@@ -105,6 +111,7 @@
         "**/__modules__*__src__/**",
         "vendor/etsy/module-*/**",
     ],
+    "intelephense.runtime": "/usr/bin/node",
     "intelephense.maxMemory": 8192,
     "peacock.favoriteColors": [
         {
@@ -255,12 +262,25 @@
     "typescript.tsserver.maxTsServerMemory": 8192,
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "workbench.colorCustomizations": {},
-    "workbench.colorTheme": "Dracula Refined",
+    "workbench.colorTheme": "Dracula Theme Soft",
     "workbench.editorAssociations": {
         "*.ipynb": "vscode.markdown.preview.editor"
     },
     "workbench.iconTheme": "material-icon-theme",
-    "workbench.sideBar.location": "left",
     "workbench.startupEditor": "none",
-    "betterOpenEditors.PackagePatterns": "**/components/*\n**/modules/*\n**/phplib/*\n**/htdocs/assets/js*\n**/tests/*"
+    "betterOpenEditors.PackagePatterns": "**/components/*\n**/modules/*\n**/phplib/*\n**/htdocs/assets/js*\n**/tests/*",
+    "git.autofetch": true,
+    "workbench.sideBar.location": "right",
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "claudeCode.preferredLocation": "panel",
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false
+    },
+    "claudeCode.useCtrlEnterToSend": true,
+    "gitlens.ai.model": "vscode",
+    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+    "eslint.lintTask.command": "eslint --flag=”v10_config_lookup_from_file”"
 }
