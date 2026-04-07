@@ -1,86 +1,129 @@
 # =============================================================================
-#  Common Shell Configuration (for both Bash and Zsh)
+#  Common Shell Configuration (sourced by both Bash and Zsh)
+#
+#  This is the main config file. Bash-specific config is in ~/.bashrc,
+#  Zsh-specific config is in ~/.zshrc. This file handles everything shared:
+#  aliases, functions, environment setup, and tool configuration.
+#
+#  Layout:
+#    1. Aliases         -- shortcuts for common commands
+#    2. Functions       -- reusable shell functions
+#    3. Environment     -- PATH, env vars, tool init
+#    4. Work config     -- employer/project-specific (loaded from private repo)
 # =============================================================================
+
 
 # ============================================================================
 #  1. Aliases
 # ============================================================================
 
-# ----- 1.1 Safety Aliases -----
+# ----- 1.1 Safety -----
 alias rm='rm -i'     # Prompt before removing
 alias cp='cp -i'     # Prompt before overwriting
 alias mv='mv -i'     # Prompt before overwriting
 alias mkdir='mkdir -p'  # Create parent directories as needed
 
-# ----- 1.2 Navigation and Utility Aliases -----
+# ----- 1.2 Navigation -----
 alias h='history'
 alias j='jobs -l'
 alias which='type -a'
-alias cd..='cd ..' # Allow for common typo
+alias cd..='cd ..'
 alias ..='cd ..'
 alias ....='cd .. && cd ..'
 
-# ----- 1.3 Path Display Aliases -----
-alias path='echo -e ${PATH//:/\\n}'
+# ----- 1.3 Path Display -----
+alias path='echo -e ${PATH//:/\\n}'       # Print PATH entries, one per line
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 
-# ----- 1.4 Disk Usage Aliases -----
-alias df='df -kTh'      # Human-readable sizes with filesystem type
-alias du='du -kh'       # Human-readable sizes
-alias dud='du -d 1 -h'  # Show size of each directory in current directory
-alias duf='du -sh *'    # Show size of each top-level directory in current directory
-alias free='free -m'    # Show sizes in MB
+# ----- 1.4 Disk Usage -----
+alias df='df -kTh'
+alias du='du -kh'
+alias dud='du -d 1 -h'   # Size of each subdir in current directory
+alias duf='du -sh *'     # Size of each top-level item
+alias free='free -m'
 
-# ----- 1.5 ls Family Aliases -----
-alias l='ls -lFh'         # Long listing with human-readable sizes
-alias ls='ls -h --color'  # Colorized output with human-readable sizes
-alias lah='ls -lah'       # Long listing including hidden files
-alias lx='ls -lXB'        # Sort by extension
-alias lk='ls -lSr'        # Sort by size
-alias lt='ls -ltr'        # Sort by date, most recent last
-alias lc='ls -ltcr'       # Sort by change time
-alias lu='ls -ltur'       # Sort by access time
-alias ll="ls -lv --group-directories-first"  # Long listing, directories first
-alias lm='ll |more'       # Pipe through 'more'
-alias lr='ll -R'          # Recursive ls
-alias la='ll -A'          # Show hidden files
-alias ldot='ls -ld .*'    # Show only dotfiles
-alias lS='ls -1FSsh'      # Sort by size
-alias lart='ls -1Fcart'   # Sort by recent modification
-alias lrt='ls -1Fcrt'     # Sort by recent access
-alias tree='tree -Csuh'   # Nice alternative to 'recursive ls'
+# ----- 1.5 ls -----
+alias l='ls -lFh'
+alias ls='ls -h --color'
+alias lah='ls -lah'
+alias lx='ls -lXB'                                   # Sort by extension
+alias lk='ls -lSr'                                   # Sort by size
+alias lt='ls -ltr'                                    # Sort by date (recent last)
+alias lc='ls -ltcr'                                   # Sort by change time
+alias lu='ls -ltur'                                   # Sort by access time
+alias ll="ls -lv --group-directories-first"
+alias lm='ll |more'
+alias lr='ll -R'                                      # Recursive
+alias la='ll -A'                                      # Include hidden
+alias ldot='ls -ld .*'                                # Only dotfiles
+alias lS='ls -1FSsh'
+alias lart='ls -1Fcart'
+alias lrt='ls -1Fcrt'
+alias tree='tree -Csuh'
 
-# ----- 1.6 Git Aliases -----
-alias git-diff='git diff | gist -t diff'
+# ----- 1.6 Git -----
 alias gcm='git checkout main'
 alias gitstatus='git status'
 alias grc='git rebase --continue'
 alias gll='git log --graph --pretty=oneline --abbrev-commit'
 
-# ----- 1.7 Grep Aliases -----
+# ----- 1.7 Gist -----
+# All gists are forced private by the gist() wrapper below.
+# Uses gist CLI (supports OpenGist and GitHub backends)
+#
+# Aliases:
+#   gist-pipe          Pipe stdin to a private gist with diff syntax highlighting
+#   gist-wip           Gist your unstaged working tree changes
+#   gist-branch        Gist all changes vs origin/main (staged + unstaged)
+#   gist-since-main    Gist only committed changes since branch diverged from main
+#
+# Stdout helpers (no gist, just print):
+#   diff-main          Print committed diff since branch point
+#   diff-branch        Print all changes vs origin/main
+
+# Wrapper: inject -p (private) on every gist call, block --no-private
+gist() {
+    if [[ " $* " == *" --no-private "* ]]; then
+        echo "Public gists are blocked. All gists must be private."
+        return 1
+    fi
+    command gist -p "$@"
+}
+
+diff-main() { git diff $(git merge-base HEAD main) HEAD; }
+diff-branch() { git diff origin/main; }
+
+alias gist-pipe='gist -t diff'
+alias gist-wip='git diff | gist-pipe'
+alias gist-branch='diff-branch | gist-pipe'
+alias gist-since-main='diff-main | gist-pipe'
+
+# ----- 1.8 Grep -----
 alias grep='grep --color'
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS} '
-alias hgrep="fc -El 0 | grep"
+alias hgrep="fc -El 0 | grep"   # Search shell history
 
-# ----- 1.8 Other Aliases -----
+# ----- 1.9 Misc -----
 alias t='tail -f'
-alias h='history'
 alias help='man'
 alias p='ps -f'
 alias sortnr='sort -n -r'
 alias unexport='unset'
 
-# ----- 1.9 Shortcuts -----
+# ----- 1.10 Shortcuts -----
 alias c='clear'
 alias edit='$EDITOR'
-alias src='source ~/.bashrc || source ~/.zshrc'  # Reload shell configuration
+alias src='source ~/.bashrc || source ~/.zshrc'  # Reload shell config
+alias cc='claude'                                # Claude Code CLI
 
 
 # ============================================================================
 #  2. Functions
 # ============================================================================
 
-# ----- 2.1 File Extraction Function -----
+# ----- 2.1 File Operations -----
+
+# extract <file> -- auto-detect archive type and extract
 function extract() {
     if [ -f $1 ] ; then
         case $1 in
@@ -102,19 +145,115 @@ function extract() {
     fi
 }
 
-# ----- 2.2 Archive Creation Functions -----
+# extract_dir [dir] [output] [excludes] [max_files_per_part]
+# Snapshot a directory's structure and file contents into markdown parts.
+# Useful for feeding codebases to LLMs or documentation.
+#   dir       Target directory (default: .)
+#   output    Output directory (default: codebase_snapshot)
+#   excludes  Comma-separated dirs to skip (default: node_modules,vendor,dist,build,.git)
+#   max       Files per part file (default: 50)
+function extract_dir() {
+  local TARGET_DIR="${1:-.}"
+  local OUTPUT_DIR="${2:-codebase_snapshot}"
+  local EXCLUDE_PATTERNS="${3:-node_modules,vendor,dist,build,.git}"
+  local MAX_FILES_PER_PART="${4:-50}"
+
+  mkdir -p "$OUTPUT_DIR"
+
+  local EXCLUDE_ARGS=""
+  IFS=',' read -ra EXCLUSIONS <<< "$EXCLUDE_PATTERNS"
+  for pattern in "${EXCLUSIONS[@]}"; do
+    EXCLUDE_ARGS="$EXCLUDE_ARGS -not -path \"*/$pattern/*\""
+  done
+
+  echo "Analyzing directory structure of $TARGET_DIR..."
+
+  local TOTAL_FILES=$(eval "find \"$TARGET_DIR\" -type f $EXCLUDE_ARGS | wc -l")
+  echo "Found $TOTAL_FILES files to process"
+
+  local INDEX_FILE="$OUTPUT_DIR/00_index.md"
+  {
+    echo "# Codebase Snapshot: $(basename "$(realpath "$TARGET_DIR")")"
+    echo "Generated on $(date '+%Y-%m-%d %H:%M:%S')"
+    echo
+    echo "## Directory Structure"
+    echo '```'
+    if command -v tree &> /dev/null; then
+      eval "tree -I \"$(echo "$EXCLUDE_PATTERNS" | tr ',' '|')\" \"$TARGET_DIR\""
+    else
+      eval "find \"$TARGET_DIR\" -type d -not -path \"*/\.*\" $EXCLUDE_ARGS | sort | sed -e 's/[^-][^\/]*\//  |   /g' -e 's/|\([^ ]\)/|-- \1/'"
+    fi
+    echo '```'
+    echo
+    echo "## File Index"
+    echo "The codebase snapshot is split into multiple parts:"
+    echo
+  } > "$INDEX_FILE"
+
+  local COUNTER=0
+  local PART_COUNTER=1
+  local FILE_COUNTER=0
+  local PART_FILE="$OUTPUT_DIR/part_$(printf "%02d" $PART_COUNTER).md"
+
+  echo "# Codebase Snapshot: Part $PART_COUNTER" > "$PART_FILE"
+  echo "## File Contents" >> "$PART_FILE"
+  echo "- [Part $PART_COUNTER](./part_$(printf "%02d" $PART_COUNTER).md)" >> "$INDEX_FILE"
+
+  while IFS= read -r file; do
+    if file "$file" | grep -q "binary"; then
+      continue
+    fi
+
+    COUNTER=$((COUNTER + 1))
+    FILE_COUNTER=$((FILE_COUNTER + 1))
+    PROGRESS=$((COUNTER * 100 / TOTAL_FILES))
+    printf "\rProcessing files: %d/%d (%d%%) - %s" "$COUNTER" "$TOTAL_FILES" "$PROGRESS" "$file" >&2
+
+    local EXT="${file##*.}"
+
+    if [ "$FILE_COUNTER" -gt "$MAX_FILES_PER_PART" ]; then
+      PART_COUNTER=$((PART_COUNTER + 1))
+      FILE_COUNTER=1
+      PART_FILE="$OUTPUT_DIR/part_$(printf "%02d" $PART_COUNTER).md"
+      echo "# Codebase Snapshot: Part $PART_COUNTER" > "$PART_FILE"
+      echo "## File Contents" >> "$PART_FILE"
+      echo "- [Part $PART_COUNTER](./part_$(printf "%02d" $PART_COUNTER).md)" >> "$INDEX_FILE"
+    fi
+
+    {
+      echo
+      echo "### $file"
+      echo "\`\`\`$EXT"
+      cat "$file"
+      echo "\`\`\`"
+      echo
+    } >> "$PART_FILE"
+
+  done < <(eval "find \"$TARGET_DIR\" -type f $EXCLUDE_ARGS | sort")
+
+  printf "\rProcessing complete: %d/%d (100%%)                         \n" "$TOTAL_FILES" "$TOTAL_FILES" >&2
+  echo "Snapshot saved to $OUTPUT_DIR/"
+  echo "Index file: $INDEX_FILE"
+  echo "Total parts: $PART_COUNTER"
+}
+
+# ----- 2.2 Archives -----
 function maketar() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
 function makezip() { zip -r "${1%%/}.zip" "$1" ; }
 
-# ----- 2.3 File Permission Function -----
+# ----- 2.3 Permissions -----
+# sanitize <dir> -- set sane permissions (owner rw, group r, no other)
 function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
 
-# ----- 2.4 Git Patch Application Function -----
+# ----- 2.4 Git -----
+# apply-patch <url> -- download and apply a git patch from a URL
 function apply-patch() {
     curl $1 | git apply -v --index
 }
 
-# ----- 2.5 Yarn/JFROG Function -----
+# ----- 2.5 Yarn/JFROG -----
+# yarn_prod <packages...> -- install packages from the prod registry
+# Uses a clean workspace in ~/development/briggs/prod-npmrc/
 function yarn_prod() {
     cd ~/development/briggs/prod-npmrc/
     rm -rf node_modules package.json yarn.lock
@@ -124,8 +263,10 @@ function yarn_prod() {
     cd -
 }
 
-# ----- 2.6 SSH and Remember Function -----
-# Function to set up SSH key-based authentication
+# ----- 2.6 SSH -----
+# setup_ssh_key <host> [key_path] -- set up SSH key auth to a remote host
+# Generates a key if needed, copies it, tests the connection, and updates ~/.ssh/config
+# Alias: sshr
 setup_ssh_key() {
     local remote_host="$1"
     local ssh_key="${2:-$HOME/.ssh/id_rsa.pub}"
@@ -142,7 +283,6 @@ setup_ssh_key() {
     echo "Testing SSH connection..."
     ssh -o PasswordAuthentication=no "$remote_host" echo "SSH key-based authentication successful!"
 
-    # Optionally, update SSH config
     if [ -f ~/.ssh/config ]; then
         if ! grep -q "Host $remote_host" ~/.ssh/config; then
             echo -e "\nHost $remote_host\n    HostName $remote_host\n    User $USER\n    IdentityFile $ssh_key\n    ControlPath ~/.ssh/controlmasters/%r@%h:%p\n    ControlMaster auto\n    ControlPersist 10m" >> ~/.ssh/config
@@ -154,120 +294,145 @@ setup_ssh_key() {
     fi
 }
 
-# Alias for setting up SSH key authentication
 alias sshr='setup_ssh_key'
 
-# Usage instructions
-sshsetup_help() {
-    echo "Usage: sshsetup <remote_host> [path_to_ssh_key]"
-    echo "Example: sshsetup user@example.com"
-    echo "Example with custom key: sshsetup user@example.com ~/.ssh/my_custom_key.pub"
+# sshf <host> [command] -- SSH into a host with your shell config forwarded
+# Copies ~/.shell_common to the remote host and sources it on login.
+# Your aliases, functions, and settings travel with you.
+# Falls back to a normal SSH if the copy fails.
+#   sshf myserver              -- interactive shell with your config
+#   sshf myserver "ls -la"     -- run a command with your config loaded
+sshf() {
+    local host="$1"
+    shift
+    if [ -z "$host" ]; then
+        echo "Usage: sshf <host> [command]"
+        return 1
+    fi
+    # Copy shell_common to remote (temp file, cleaned up on logout)
+    local remote_rc="/tmp/.shell_common.$$"
+    scp -q "$HOME/.shell_common" "$host:$remote_rc" 2>/dev/null
+    if [ $? -ne 0 ]; then
+        echo "Could not copy config to $host, falling back to plain SSH"
+        ssh "$host" "$@"
+        return
+    fi
+    if [ $# -eq 0 ]; then
+        # Interactive: source config then launch shell, clean up on exit
+        ssh -t "$host" "bash --rcfile $remote_rc -i; rm -f $remote_rc"
+    else
+        # Command: source config, run command, clean up
+        ssh "$host" "source $remote_rc; $@; rm -f $remote_rc"
+    fi
 }
 
-alias sshr_help='sshsetup_help'
-
-# ----- 2.7 Utility Functions -----
-# Create a directory and change into it
+# ----- 2.7 Utility -----
+# mkcd <dir> -- create a directory and cd into it
 mkcd() {
     mkdir -p "$1" && cd "$1"
 }
-# Create a backup of a file
+
+# bak <file> -- create a .bak copy of a file
 bak() { cp "$1"{,.bak}; }
 
-# ----- 2.8 Find Functions -----
-# Functions to find files and directories
+# ----- 2.8 Find -----
+# ff <pattern> -- find files matching pattern (case-insensitive)
 ff() { find . -type f -iname "*$1*" -ls ; }
+# fd <pattern> -- find directories matching pattern (case-insensitive)
 fd() { find . -type d -iname "*$1*" -ls ; }
 
-# ----- 2.9 Git Diff Functions -----
 
 # ============================================================================
-#  3. Conditional Aliases (OS or Terminal Specific)
+#  3. Environment Setup
 # ============================================================================
 
-# case "$TERM" in
-# xterm*)
-#     # Use winpty for interactive programs in mintty (Windows-specific)
-#     for name in node ipython php php5 psql python2.7 python python3 npm yo
-#     do
-#         case "$(type -p "$name".exe 2>/dev/null)" in
-#         ''|/usr/bin/*) continue;;
-#         esac
-#         alias $name="winpty $name.exe"
-#     done
-#     ;;
-# esac
+# GPG -- needed for signed commits and password prompts
+export GPG_TTY=$(tty)
+
+# NVM -- Node version manager
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Homebrew -- multi-platform: linuxbrew on VMs, /opt/homebrew on macOS
+if [[ -d "/home/linuxbrew/.linuxbrew" ]]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+elif [[ -d "$HOME/.linuxbrew" ]]; then
+    eval "$("$HOME/.linuxbrew/bin/brew" shellenv)"
+elif [[ -d "/opt/homebrew" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif ! command -v brew &> /dev/null; then
+    echo "Homebrew not found. Install: https://brew.sh"
+fi
+
+# Auto-update Claude Code on shell startup (silent, non-blocking)
+if command -v brew &> /dev/null; then
+    (brew upgrade --cask claude-code &>/dev/null &)
+fi
+
 
 # ============================================================================
-#  4. Local Customizations
+#  4. Work-Specific Config (optional overlay)
+#
+#  Source ~/.shell_work if it exists. This file is maintained in a separate
+#  private repo (dotfiles-work) and linked in via dotbot. It contains
+#  employer-specific aliases, env vars, and functions that shouldn't be
+#  in the public dotfiles repo.
+#
+#  On personal machines without ~/.shell_work, everything above still works.
 # ============================================================================
 
-# Handy aliases for Etsy employees
-alias pipe-gist='gist -p -t diff'
-alias gist-diff='git diff origin/main | pipe-gist'
-alias gcm='git checkout main'
-alias diffmain='git diff $(git merge-base HEAD main) HEAD && git diff | pipe-gist'
-alias review='review --no-commit-all --stay-on-temp -g'
-alias testserver='cd /tmp && python -m SimpleHTTPServer'
-alias git-commit='git add -A && git commit -a'
-alias git-commit-rebase='git add -A && git commit -a -m "[rebase me]"'
-alias git-commit-ammend='git add -A && git commit --amend'
-alias git-upstream-main='git branch --set-upstream-to=origin/main'
-alias git-upstream-current='git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)'
-alias git-revert-to-main-origin='git fetch origin && git reset --hard origin/main'
-alias git-revert-file='git checkout origin/main'
-alias git-checkout-ticket='git branch -l | grep'
-alias rpull='git rpull'
-alias rtry='rpull && try'
-alias gitstatus='git status'
-alias git-diff-files='git diff --name-only'
-alias grc='git rebase --continue'
-alias make-pretty='git diff --name-only origin | grep ".js$" | xargs prettier --write'
-alias superpush='until git rpull && git push; do : ; done'
-alias api-compile='./bin/api/compile'
-alias schema-dump='cd ~/development/SchemaDumps && git rpull'
-alias pu='cd ~/development/Etsyweb/tests/phpunit/ && pake unit_nosetup'
-alias pus='cd ~/development/Etsyweb/tests/phpunit/ && pake unit'
-alias puf='cd ~/development/Etsyweb/tests/phpunit/ && pake unit_nosetup "'"'"'--filter'"'"'"'
-alias pusf='cd ~/development/Etsyweb/tests/phpunit/ && pake unit "'"'"'--filter'"'"'"'
-alias pi='cd ~/development/Etsyweb/tests/phpunit/ && pake integration_nosetup'
-alias pis='cd ~/development/Etsyweb/tests/phpunit/ && pake integration'
-alias pif='cd ~/development/Etsyweb/tests/phpunit/ && pake integration_nosetup "'"'"'--filter'"'"'"'
-alias pisf='cd ~/development/Etsyweb/tests/phpunit/ && pake integration "'"'"'--filter'"'"'"'
-alias ew='cd ~/development/Etsyweb'
-alias edit-profile='vi ~/.bash_profile'
-alias source-profile='source ~/.bash_profile'
-alias my-vertica='vsql -h vertica-prod.etsycorp.com'
-alias code-coverage='ew && bin/code-coverage/generate-local-coverage.php'
+if [ -f "$HOME/.shell_work" ]; then
+    source "$HOME/.shell_work"
+fi
 
-# Connect to VM using Mosh and attach to tmux session
-mosh_vm() {
-    local vm_name=${1:-vm}  # Default to 'vm' if no argument provided
-    mosh "$vm_name" -- sh -c 'tmux -u a || tmux -u'
+# ----- Dev workspace (tmux + Claude Code) -----
+
+# mux [session] [dir] -- create or attach to a persistent tmux dev workspace
+#
+# Two windows:
+#   1 "shell"  -- general purpose terminal (default: /srv)
+#   2 "claude" -- for Claude Code (just type `claude` or `cc` and press Enter)
+#
+# If the session already exists, just attach and pick up where you left off.
+# Sessions survive SSH disconnects -- reconnect and `mux` again to resume.
+#
+# Usage:
+#   mux                  Create/attach "work" session in /srv
+#   mux REGX-1234        Create/attach session named after a ticket
+#   mux buildavite ~/src Create/attach "buildavite" session in ~/src
+#   mux ls               List all active sessions
+mux() {
+    # List sessions
+    if [ "$1" = "ls" ]; then
+        tmux list-sessions 2>/dev/null || echo "No active sessions."
+        return
+    fi
+
+    local session="${1:-work}"
+    local workdir="${2:-/srv}"
+
+    # If session exists, just attach
+    if tmux has-session -t "$session" 2>/dev/null; then
+        if [ -n "$TMUX" ]; then
+            tmux switch-client -t "$session"
+        else
+            tmux attach -t "$session"
+        fi
+        return
+    fi
+
+    # Create new session with two windows
+    tmux new-session -d -s "$session" -n "shell" -c "$workdir"
+    tmux new-window -t "$session" -n "claude" -c "$workdir"
+
+    # Start on the shell window
+    tmux select-window -t "$session:shell"
+
+    # Attach
+    if [ -n "$TMUX" ]; then
+        tmux switch-client -t "$session"
+    else
+        tmux attach -t "$session"
+    fi
 }
-# This alias does the following:
-# 1. Uses 'mosh' to connect to a host named 'vm'
-# 2. Once connected, it runs a shell command to:
-#    a. Attempt to attach to an existing tmux session with UTF-8 support (-u)
-#    b. If no existing session, start a new tmux session with UTF-8 support
-# This ensures you always enter into a tmux session upon connection
-# Usage: mosh_vm [vm_name]
-# Example: mosh_vm ny2
-
-# Google Cloud VM start command
-gcloud_start() {
-    local instance=${1:-jbriggs}
-    local project=${2:-etsy-devvms-dev}
-    local zone=${3:-us-central1-a}
-    gcloud compute instances start "$instance" --project "$project" --zone "$zone"
-}
-# This alias starts a specific Google Cloud VM instance
-# Adjust the instance name, project, and zone as needed for your setup
-# Usage: gcloud_start [instance_name] [project_name] [zone]
-# Example: gcloud_start myinstance myproject us-west1-b
-
-# Load GPG TTY for password prompts
-GPG_TTY=$(tty)
-
-# Set up Homebrew
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

@@ -10,9 +10,14 @@
     ~/.bashrc: bash/bashrc
     ~/.gitconfig: git/gitconfig
     ~/.shell_common: shell/shell_common
+    # Work config -- only linked on machines with Etsy GitHub org access
+    ~/.shell_work:
+      path: work/shell_work
+      if: 'command -v gh >/dev/null && gh api user/orgs --jq ".[].login" 2>/dev/null | grep -q etsy'
     ~/.zprofile: zsh/zprofile
     ~/.zshrc: zsh/zshrc
 
+    ~/.tmux.conf: tmux/tmux.conf
     ~/.config/ohmyposh/omp.toml: prompts/omp.toml
 
     # VS Code Linux

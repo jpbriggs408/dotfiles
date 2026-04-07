@@ -1,7 +1,18 @@
+# =============================================================================
+#  .bash_profile -- Login shell entry point
+#
+#  On most systems, this is the first file sourced when you log in.
+#  It loads .bashrc for the shell config, then (by default) replaces bash
+#  with zsh. Set DOTFILES_SHELL=bash to stay in bash (e.g. on machines
+#  without zsh, or for debugging).
+# =============================================================================
+
 if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
 
-
-export SHELL=/usr/bin/zsh
-exec /usr/bin/zsh -l
+# Launch preferred shell (default: zsh). Set DOTFILES_SHELL=bash to stay in bash.
+if [[ "${DOTFILES_SHELL:-zsh}" == "zsh" ]] && command -v zsh &> /dev/null; then
+    export SHELL=$(command -v zsh)
+    exec "$SHELL" -l
+fi

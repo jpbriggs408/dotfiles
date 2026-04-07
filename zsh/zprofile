@@ -1,2 +1,8 @@
+# =============================================================================
+#  .zprofile -- Zsh login shell setup (runs before .zshrc)
+#
+#  Only put things here that MUST be on PATH before .zshrc runs.
+#  Brew is needed early so zinit and other brew-installed tools are available.
+# =============================================================================
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

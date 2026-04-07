@@ -25,7 +25,7 @@
         "source.organizeImports": "never",
         "source.fixAll": "never",
         "addMissingImports": "never",
-        "fixAll.eslint": "never",
+        "fixAll.eslint": "never"
     },
     "editor.cursorBlinking": "phase",
     "editor.fontFamily": "'Fira Code'",
@@ -47,208 +47,20 @@
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
-    "files.watcherExclude": {
-        "**/generated/**": true,
-        "**/Generated/**": true,
-        "**/htdocs/assets/dist/**": true,
-        "**/vendor/**": true,
-        "tests/phpunit/**/__snapshots__/**": true,
-        "tmp/**": true,
-        "translations/**": true
-    },
     "git.confirmSync": false,
-    "git.ignoredRepositories": [
-        "./jsconfig.json"
-    ],
+    "git.autofetch": true,
     "gitlens.advanced.blame.customArguments": [
         "--ignore-revs-file",
         ".git-blame-ignore-revs"
     ],
     "gitlens.currentLine.pullRequests.enabled": false,
     "gitlens.hovers.currentLine.over": "line",
-    "gitlens.remotes": [
-        {
-            "domain": "github.etsycorp.com",
-            "type": "GitHub",
-            "urls": {
-                "branch": "https://github.etsycorp.com/${repo}/commits/${branch}",
-                "branches": "https://github.etsycorp.com/${repo}/branches",
-                "commit": "https://github.etsycorp.com/${repo}/commit/${id}",
-                "file": "https://github.etsycorp.com/${repo}?path=${file}${line}",
-                "fileInBranch": "https://github.etsycorp.com/${repo}/blob/${branch}/${file}${line}",
-                "fileInCommit": "https://github.etsycorp.com/${repo}/blob/${id}/${file}${line}",
-                "fileLine": "#L${line}",
-                "fileRange": "#L${start}-L${end}",
-                "repository": "https://github.etsycorp.com/${repo}"
-            }
-        }
-    ],
     "gitlens.views.commits.showBranchComparison": false,
+    "gitlens.ai.model": "vscode",
+    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
     "guides.enabled": false,
-    "search.exclude": {
-        "modules/css": true,
-        "/htdocs/assets/css/__modules**": true
-    },
-    "intelephense.files.exclude": [
-        "**/.git/**",
-        "**/.svn/**",
-        "**/.hg/**",
-        "**/CVS/**",
-        "**/.DS_Store/**",
-        "**/node_modules/**",
-        "**/bower_components/**",
-        "**/htdocs_customshops/**",
-        "**/htdocs_gearman/**",
-        "**/htdocs/assets/dist/**",
-        "**/tmp/**",
-        "**vendor/*/{!(phpunit)/**}",
-        "translations/**",
-        "**/.phan/**",
-        "**/cron.d/**",
-        "**/generated/**",
-        "**/Generated/**",
-        "**/modules/css/**",
-        "**/__modules__*__src__/**",
-        "vendor/etsy/module-*/**",
-    ],
-    "intelephense.runtime": "/usr/bin/node",
-    "intelephense.maxMemory": 8192,
-    "peacock.favoriteColors": [
-        {
-            "name": "[Collage] Orange",
-            "value": "#f1641e"
-        },
-        {
-            "name": "[Collage] Orange Dark",
-            "value": "#cf4018"
-        },
-        {
-            "name": "[Collage] Orange Light",
-            "value": "#faa077"
-        },
-        {
-            "name": "[Collage] Orange Tint",
-            "value": "#f8ebe6"
-        },
-        {
-            "name": "[Collage] Denim",
-            "value": "#2f466c"
-        },
-        {
-            "name": "[Collage] Denim Dark",
-            "value": "#232347"
-        },
-        {
-            "name": "[Collage] Denim Light",
-            "value": "#4d6bc6"
-        },
-        {
-            "name": "[Collage] Denim Tint",
-            "value": "#d7e6f5"
-        },
-        {
-            "name": "[Collage] Lavender",
-            "value": "#654b77"
-        },
-        {
-            "name": "[Collage] Lavender Dark",
-            "value": "#3e1c53"
-        },
-        {
-            "name": "[Collage] Lavender Light",
-            "value": "#9560b8"
-        },
-        {
-            "name": "[Collage] Lavender Tint",
-            "value": "#e6e1f0"
-        },
-        {
-            "name": "[Collage] Beeswax",
-            "value": "#faa129"
-        },
-        {
-            "name": "[Collage] Beeswax Dark",
-            "value": "#a66800"
-        },
-        {
-            "name": "[Collage] Beeswax Light",
-            "value": "#fdd95c"
-        },
-        {
-            "name": "[Collage] Beeswax Tint",
-            "value": "#fdebd2"
-        },
-        {
-            "name": "[Collage] Slime",
-            "value": "#258635"
-        },
-        {
-            "name": "[Collage] Slime Dark",
-            "value": "#1c4a21"
-        },
-        {
-            "name": "[Collage] Slime Light",
-            "value": "#9ec063"
-        },
-        {
-            "name": "[Collage] Slime Tint",
-            "value": "#d4e9d7"
-        },
-        {
-            "name": "[Collage] Turquoise",
-            "value": "#2f766d"
-        },
-        {
-            "name": "[Collage] Turquoise Dark",
-            "value": "#1a3b38"
-        },
-        {
-            "name": "[Collage] Turquoise Light",
-            "value": "#7ed4bd"
-        },
-        {
-            "name": "[Collage] Turquoise Tint",
-            "value": "#ddebe3"
-        },
-        {
-            "name": "[Collage] Bubblegum",
-            "value": "#b54c82"
-        },
-        {
-            "name": "[Collage] Bubblegum Dark",
-            "value": "#592642"
-        },
-        {
-            "name": "[Collage] Bubblegum Light",
-            "value": "#f592b8"
-        },
-        {
-            "name": "[Collage] Bubblegum Tint",
-            "value": "#f5d9e3"
-        },
-        {
-            "name": "[Collage] Brick",
-            "value": "#a61a2e"
-        },
-        {
-            "name": "[Collage] Brick Dark",
-            "value": "#540d17"
-        },
-        {
-            "name": "[Collage] Brick Light",
-            "value": "#fd9184"
-        },
-        {
-            "name": "[Collage] Brick Tint",
-            "value": "#fddcd8"
-        }
-    ],
-    "phpcs.executablePath": "/home/jbriggs/development/Etsyweb/vendor/bin/phpcs",
-    "phpcs.standard": "/home/jbriggs/development/Etsyweb/tests/standards/stable-ruleset.xml",
-    "phpcs.autoConfigSearch": false,
     "prettier.singleQuote": true,
     "prettier.tabWidth": 4,
-    "requireModuleSupport.modulePath": "htdocs/assets/js",
     "terminal.integrated.env.linux": {
         "EDITOR": "code -rw"
     },
@@ -268,8 +80,6 @@
     },
     "workbench.iconTheme": "material-icon-theme",
     "workbench.startupEditor": "none",
-    "betterOpenEditors.PackagePatterns": "**/components/*\n**/modules/*\n**/phplib/*\n**/htdocs/assets/js*\n**/tests/*",
-    "git.autofetch": true,
     "workbench.sideBar.location": "right",
     "github.copilot.nextEditSuggestions.enabled": true,
     "claudeCode.preferredLocation": "panel",
@@ -279,7 +89,5 @@
         "markdown": true,
         "scminput": false
     },
-    "claudeCode.useCtrlEnterToSend": true,
-    "gitlens.ai.model": "vscode",
-    “gitlens.ai.vscode.model”: “copilot:gpt-4.1”
+    "claudeCode.useCtrlEnterToSend": true
 }

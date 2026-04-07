@@ -18,11 +18,9 @@
 # export EDITOR=vim
 # export VISUAL=vim
 
-# Set GPG TTY for GPG operations
-export GPG_TTY=$(tty)
+# GPG_TTY is set via shell_common
 
-# NVM (Node Version Manager) setup
-export NVM_DIR="$HOME/.nvm"
+# NVM is loaded via shell_common
 
 # ============================================================================
 #  2. Shell Options
@@ -60,9 +58,6 @@ if [ -f "$HOME/.shell_common" ]; then
     source "$HOME/.shell_common"
 fi
 
-# Load NVM if available
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # In Zsh, I use oh-my-posh for prompt theming. In Bash, I use a custom prompt to make things
 # a little more interesting. The prompt displays the current working directory and the current
@@ -70,7 +65,7 @@ fi
 # will display a red '>' character to indicate an error.
 
 # Git prompt and completion for bash shell
-# Source git prompt and completion scripts if available (Etsy machines).
+# Source git prompt and completion scripts if available.
 # Otherwise define a simple git prompt function.
 if [ -f /etc/bash_gitprompt ] && [ -f /etc/bash_completion ]; then
     source /etc/bash_gitprompt
@@ -113,5 +108,3 @@ else
 
     PROMPT_COMMAND=prompt_func
 fi
-
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

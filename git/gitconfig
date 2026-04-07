@@ -1,7 +1,12 @@
+# Git configuration
+# Managed by dotfiles (~/dotfiles/git/gitconfig -> ~/.gitconfig)
+#
+# Machine-specific overrides (signing keys, etc.) go in ~/.gitconfig.local
+# and can be included via [include] path = ~/.gitconfig.local
+
 [user]
 	name = Jonathan Briggs
 	email = jpbriggs408@gmail.com
-	signingkey = 8094441954431A3F
 [core]
 	editor = vim
 	symlinks = true
@@ -9,11 +14,19 @@
 [alias]
 	co = checkout
 [commit]
-	gpgsign = false
+	gpgsign = true
 [init]
 	defaultBranch = main
 [gpg]
 	program = /usr/bin/gpg
-	program = /usr/bin/gpg
 [push]
 	default = upstream
+[gist]
+	# Default all gists to private (etsy-gist CLI / gist.etsycloud.com)
+	private = yes
+[credential "https://github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential
