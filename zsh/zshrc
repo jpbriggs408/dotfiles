@@ -1,29 +1,21 @@
 # =============================================================================
-#  ZSH Configuration File
+#  .zshrc -- Zsh-specific configuration
+#
+#  Most aliases, functions, and env setup live in ~/.shell_common (shared
+#  with bash). This file handles zsh-only concerns:
+#    - Plugin manager (zinit)
+#    - Prompt theme (oh-my-posh)
+#    - Zsh completion and history
+#    - Suffix aliases and global aliases (zsh-only features)
+#    - Shell integrations (fzf, zoxide)
+#    - Dotfiles staleness check
+#
+#  Load order: zprofile -> zshrc -> shell_common (sourced within zshrc)
 # =============================================================================
 
-# Features and Plugins
+# Plugins (zinit)
 # -----------------------------------------------------------------------------
-
-# Check if we're on Linux
-if [[ "$(uname)" == "Linux" ]]; then
-    # Check if Linuxbrew is installed
-    if [[ -d "/home/linuxbrew/.linuxbrew" ]]; then
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    elif [[ -d "$HOME/.linuxbrew" ]]; then
-        eval "$($HOME/.linuxbrew/bin/brew shellenv)"
-    else
-        # Install Homebrew if not present
-        if ! command -v brew &> /dev/null; then
-            echo "Homebrew not found. Installing..."
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-            # After installation, add Homebrew to your PATH
-            test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
-            test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        fi
-    fi
-fi
+# Homebrew is set up via shell_common; zprofile handles early PATH for zinit
 
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -110,10 +102,9 @@ fi
 # -----------------------------------------------------------------------------
 alias zshrc='${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc'
 
-# Suffix aliases
+# Suffix aliases -- typing "foo.rb" auto-opens in $EDITOR, etc.
 autoload -Uz is-at-least
 if is-at-least 4.2.0; then
-    # open browser on urls
     if [[ -n "$BROWSER" ]]; then
         _browser_fts=(htm html de org net com at cx nl se dk)
         for ft in $_browser_fts; do alias -s $ft=$BROWSER; done
@@ -144,7 +135,7 @@ if is-at-least 4.2.0; then
     alias -s tar.gz="echo "
     alias -s ace="unace l"
 
-    # ----- 5.9 Global Aliases -----
+    # Global aliases (expand anywhere in command line, not just at start)
     alias -g H='| head'
     alias -g T='| tail'
     alias -g G='| grep'
@@ -161,7 +152,8 @@ zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f
 
 # Shell Integrations
 # -----------------------------------------------------------------------------
-# install fzf and zoxide if not present
+# fzf: fuzzy finder (Ctrl-R for history, Ctrl-T for files)
+# zoxide: smarter cd that learns your frequently-used directories (aliased to cd)
 if ! command -v fzf &> /dev/null; then
     brew install fzf
 fi
@@ -171,24 +163,27 @@ fi
 
 # load fzf and zoxide
 eval "$(fzf --zsh)"
+export _ZO_DOCTOR=0  # Disable zoxide config check (it's already at the end)
 eval "$(zoxide init --cmd cd zsh)"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Warn if dotfiles are out of date (uncommitted changes or behind remote)
 __check_dotfiles() {
-    local dir="${HOME}/.dotfiles"
-    [[ -d "$dir" ]] || return
+    local dir
+    if [[ -d "${HOME}/.dotfiles" ]]; then
+        dir="${HOME}/.dotfiles"
+    elif [[ -d "${HOME}/dotfiles" ]]; then
+        dir="${HOME}/dotfiles"
+    else
+        return
+    fi
     local dirty behind
     dirty=$(git -C "$dir" status --porcelain 2>/dev/null)
     behind=$(git -C "$dir" rev-list --count HEAD..@{u} 2>/dev/null)
     if [[ -n "$dirty" ]]; then
-        echo "\033[33m[dotfiles] Uncommitted changes detected — cd ~/.dotfiles && git status\033[0m"
+        echo "\033[33m[dotfiles] Uncommitted changes detected — cd $dir && git status\033[0m"
     fi
     if [[ -n "$behind" && "$behind" -gt 0 ]]; then
-        echo "\033[33m[dotfiles] $behind commit(s) behind origin — cd ~/.dotfiles && git pull\033[0m"
+        echo "\033[33m[dotfiles] $behind commit(s) behind origin — cd $dir && git pull\033[0m"
     fi
 }
 __check_dotfiles

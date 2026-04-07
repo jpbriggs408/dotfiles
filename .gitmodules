@@ -2,3 +2,6 @@
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
 	ignore = dirty
+[submodule "work"]
+	path = work
+	url = git@github.com:jpbriggs408/dotfiles-work.git
