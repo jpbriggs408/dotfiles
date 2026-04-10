@@ -1,6 +1,23 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(yarnpkg install:*)",
+      "Bash(yarn start-vm)",
+      "Bash(gh api:*)",
+      "Bash(GIT_SEQUENCE_EDITOR='python3 -c \"\":*)",
+      "Bash(git stash:*)",
+      "Bash(git stash pop:*)",
+      "Bash(node -e \":*)",
+      "Read(//home/jbriggs/development/Etsyweb/**)",
+      "Read(//srv/**)"
+    ],
+    "additionalDirectories": [
+      "/home/jbriggs/.npm/etsyweb/eslint-plugin-etsy-rules"
+    ]
+  },
+  "model": "claude-opus-4-6[1m]",
   "statusLine": {
     "type": "command",
-    "command": "sh /Users/jbriggs/.claude/statusline-command.sh"
+    "command": "sh ~/.claude/statusline-command.sh"
   }
 }
