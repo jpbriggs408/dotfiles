@@ -20,6 +20,9 @@
     ~/.tmux.conf: tmux/tmux.conf
     ~/.config/ohmyposh/omp.toml: prompts/omp.toml
 
+    ~/.claude/settings.json: claude/settings.json
+    ~/.claude/statusline-command.sh: claude/statusline-command.sh
+
     # VS Code Linux
     ~/.config/Code/User/settings.json:
       if: '[[ `uname` = Linux ]]'
