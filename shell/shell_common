@@ -251,19 +251,7 @@ function apply-patch() {
     curl $1 | git apply -v --index
 }
 
-# ----- 2.5 Yarn/JFROG -----
-# yarn_prod <packages...> -- install packages from the prod registry
-# Uses a clean workspace in ~/development/briggs/prod-npmrc/
-function yarn_prod() {
-    cd ~/development/briggs/prod-npmrc/
-    rm -rf node_modules package.json yarn.lock
-    yarnpkg cache clean
-    yarnpkg init -y
-    yarnpkg add $@
-    cd -
-}
-
-# ----- 2.6 SSH -----
+# ----- 2.5 SSH -----
 # setup_ssh_key <host> [key_path] -- set up SSH key auth to a remote host
 # Generates a key if needed, copies it, tests the connection, and updates ~/.ssh/config
 # Alias: sshr
@@ -391,14 +379,14 @@ fi
 # mux [session] [dir] -- create or attach to a persistent tmux dev workspace
 #
 # Two windows:
-#   1 "shell"  -- general purpose terminal (default: /srv)
+#   1 "shell"  -- general purpose terminal (default: $MUX_WORKDIR or ~)
 #   2 "claude" -- for Claude Code (just type `claude` or `cc` and press Enter)
 #
 # If the session already exists, just attach and pick up where you left off.
 # Sessions survive SSH disconnects -- reconnect and `mux` again to resume.
 #
 # Usage:
-#   mux                  Create/attach "work" session in /srv
+#   mux                  Create/attach "work" session in $MUX_WORKDIR (default: ~)
 #   mux REGX-1234        Create/attach session named after a ticket
 #   mux buildavite ~/src Create/attach "buildavite" session in ~/src
 #   mux ls               List all active sessions
@@ -410,7 +398,7 @@ mux() {
     fi
 
     local session="${1:-work}"
-    local workdir="${2:-/srv}"
+    local workdir="${2:-${MUX_WORKDIR:-$HOME}}"
 
     # If session exists, just attach
     if tmux has-session -t "$session" 2>/dev/null; then

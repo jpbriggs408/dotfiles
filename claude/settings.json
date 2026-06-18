@@ -1,23 +1,83 @@
 {
   "permissions": {
+    "deny": ["Bash(git push*)"],
     "allow": [
       "Bash(yarnpkg install:*)",
-      "Bash(yarn start-vm)",
       "Bash(gh api:*)",
       "Bash(GIT_SEQUENCE_EDITOR='python3 -c \"\":*)",
       "Bash(git stash:*)",
       "Bash(git stash pop:*)",
       "Bash(node -e \":*)",
-      "Read(/WORK_MONOREPO_PATH/**)",
-      "Read(//srv/**)"
-    ],
-    "additionalDirectories": [
-      "/home/jbriggs/~/.npm/work/eslint-plugin-work-rules"
+      "Bash(python3 /home/jbriggs/bin/supergrep_digest.py*)"
     ]
   },
   "model": "claude-opus-4-6[1m]",
   "statusLine": {
     "type": "command",
     "command": "sh ~/.claude/statusline-command.sh"
+  },
+  "effortLevel": "xhigh",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
+  "voiceEnabled": true,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"/home/jbriggs/.local/share/clawdagotchi/hook_relay.py\" PreToolUse"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"/home/jbriggs/.local/share/clawdagotchi/hook_relay.py\" PostToolUse"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"/home/jbriggs/.local/share/clawdagotchi/hook_relay.py\" Stop"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"/home/jbriggs/.local/share/clawdagotchi/hook_relay.py\" SubagentStop"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"/home/jbriggs/.local/share/clawdagotchi/hook_relay.py\" PermissionRequest",
+            "timeout": 300000
+          }
+        ]
+      }
+    ]
   }
 }

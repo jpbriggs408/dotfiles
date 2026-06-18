@@ -36,3 +36,5 @@
       force: true
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
+    - ['[ -f ~/.shell_work ] && . ~/.shell_work && merge_vscode_settings || true', Merging VSCode work settings]
+    - ['[ -f ~/.shell_work ] && . ~/.shell_work && merge_claude_settings || true', Merging Claude Code work settings]

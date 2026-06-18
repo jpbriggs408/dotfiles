@@ -10,7 +10,7 @@
 [core]
 	editor = vim
 	symlinks = true
-        excludesfile = /home/jbriggs/.gitignore
+        excludesfile = ~/.gitignore
 [alias]
 	co = checkout
 [commit]
@@ -22,7 +22,7 @@
 [push]
 	default = upstream
 [gist]
-	# Default all gists to private (work-gist CLI / gist.example.com)
+	# Default all gists to private
 	private = yes
 [credential "https://github.com"]
 	helper =
