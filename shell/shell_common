@@ -115,6 +115,7 @@ alias c='clear'
 alias edit='$EDITOR'
 alias src='source ~/.bashrc || source ~/.zshrc'  # Reload shell config
 alias cc='claude'                                # Claude Code CLI
+alias dotbot='~/dotfiles/install'               # Re-run dotfiles installer
 
 
 # ============================================================================
