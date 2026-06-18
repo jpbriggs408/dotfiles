@@ -13,7 +13,7 @@
     # Work config -- only linked on machines with work GitHub org access
     ~/.shell_work:
       path: work/shell_work
-      if: 'command -v gh >/dev/null && gh api user/orgs --jq ".[].login" 2>/dev/null | grep -q work'
+      if: '[ -f ~/dotfiles/work/shell_work ]'
     ~/.zprofile: zsh/zprofile
     ~/.zshrc: zsh/zshrc
 
