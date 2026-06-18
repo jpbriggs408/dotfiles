@@ -22,6 +22,7 @@
 
     ~/.claude/settings.json: claude/settings.json
     ~/.claude/statusline-command.sh: claude/statusline-command.sh
+    ~/.claude/hooks/gh-write-guard.sh: claude/hooks/gh-write-guard.sh
 
     # VS Code Linux
     ~/.config/Code/User/settings.json:

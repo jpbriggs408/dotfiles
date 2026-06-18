@@ -1,6 +1,8 @@
 {
   "permissions": {
-    "deny": ["Bash(git push*)"],
+    "deny": [
+      "Bash(git push*)"
+    ],
     "allow": [
       "Bash(yarnpkg install:*)",
       "Bash(gh api:*)",
@@ -8,7 +10,17 @@
       "Bash(git stash:*)",
       "Bash(git stash pop:*)",
       "Bash(node -e \":*)",
-      "Bash(python3 /home/jbriggs/bin/supergrep_digest.py*)"
+      "Bash(python3 /home/jbriggs/bin/supergrep_digest.py*)",
+      "Bash(yarn start-vm)",
+      "Read(/WORK_MONOREPO_PATH/**)",
+      "Read(//srv/**)",
+      "Bash(git -C /srv fetch*)",
+      "Bash(git -C /srv log*)",
+      "Bash(git -C /srv blame*)",
+      "Bash(git -C /srv diff-tree*)"
+    ],
+    "additionalDirectories": [
+      "/home/jbriggs/~/.npm/work/eslint-plugin-work-rules"
     ]
   },
   "model": "claude-opus-4-6[1m]",
@@ -30,6 +42,15 @@
           {
             "type": "command",
             "command": "python3 \"/home/jbriggs/.local/share/clawdagotchi/hook_relay.py\" PreToolUse"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/gh-write-guard.sh"
           }
         ]
       }
