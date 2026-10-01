@@ -11,12 +11,11 @@
       "Bash(gh api:*)",
       "Bash(GIT_SEQUENCE_EDITOR='python3 -c \"\":*)",
       "Bash(git stash:*)",
-      "Bash(git stash pop:*)",
       "Bash(node -e \":*)",
       "Bash(python3 /home/jbriggs/bin/supergrep_digest.py*)"
     ]
   },
-  "model": "claude-opus-4-6[1m]",
+  "model": "claude-sonnet-5",
   "statusLine": {
     "type": "command",
     "command": "sh ~/.claude/statusline-command.sh"
@@ -26,69 +25,18 @@
     "enabled": true,
     "mode": "hold"
   },
-  "voiceEnabled": true,
   "hooks": {
     "PreToolUse": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"/home/jbriggs/.local/share/clawdagotchi/hook_relay.py\" PreToolUse"
-          }
-        ]
-      },
       {
         "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
             "command": "bash ~/.claude/hooks/gh-write-guard.sh"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "*",
-        "hooks": [
+          },
           {
             "type": "command",
-            "command": "python3 \"/home/jbriggs/.local/share/clawdagotchi/hook_relay.py\" PostToolUse"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"/home/jbriggs/.local/share/clawdagotchi/hook_relay.py\" Stop"
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"/home/jbriggs/.local/share/clawdagotchi/hook_relay.py\" SubagentStop"
-          }
-        ]
-      }
-    ],
-    "PermissionRequest": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"/home/jbriggs/.local/share/clawdagotchi/hook_relay.py\" PermissionRequest",
-            "timeout": 300000
+            "command": "bash ~/.claude/hooks/git-safety-guard.sh"
           }
         ]
       }

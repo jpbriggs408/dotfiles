@@ -14,6 +14,33 @@
     ~/.shell_work:
       path: work/shell_work
       if: '[ -f ~/dotfiles/work/shell_work ]'
+    ~/.claude/CLAUDE.md:
+      path: work/claude/CLAUDE.md
+      if: '[ -f ~/dotfiles/work/claude/CLAUDE.md ]'
+    ~/.claude/CONFIG.md:
+      path: work/claude/CONFIG.md
+      if: '[ -f ~/dotfiles/work/claude/CONFIG.md ]'
+    ~/.claude/style-guide.md:
+      path: work/claude/style-guide.md
+      if: '[ -f ~/dotfiles/work/claude/style-guide.md ]'
+    ~/.claude/etsyweb-gotchas.md:
+      path: work/claude/etsyweb-gotchas.md
+      if: '[ -f ~/dotfiles/work/claude/etsyweb-gotchas.md ]'
+    ~/.claude/skills:
+      path: work/claude/skills
+      if: '[ -d ~/dotfiles/work/claude/skills ]'
+      force: true
+    ~/.claude/skills-drafts:
+      path: work/claude/skills-drafts
+      if: '[ -d ~/dotfiles/work/claude/skills-drafts ]'
+      force: true
+    # Durable home-scope Claude memory, shared across devbox re-provisions.
+    # Project-scope memory (e.g. /srv) stays local-only, point-in-time,
+    # never version-controlled -- only this low-churn scope moves.
+    ~/.claude/projects/-home-jbriggs/memory:
+      path: work/claude/memory/-home-jbriggs
+      if: '[ -d /srv ]'
+      force: true
     ~/.zprofile: zsh/zprofile
     ~/.zshrc: zsh/zshrc
 
@@ -23,6 +50,7 @@
     ~/.claude/settings.json: claude/settings.json
     ~/.claude/statusline-command.sh: claude/statusline-command.sh
     ~/.claude/hooks/gh-write-guard.sh: claude/hooks/gh-write-guard.sh
+    ~/.claude/hooks/git-safety-guard.sh: claude/hooks/git-safety-guard.sh
 
     # VS Code Linux
     ~/.config/Code/User/settings.json:
